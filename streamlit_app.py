@@ -21,7 +21,7 @@ except Exception as e:
     st.stop()
 
 # Output the list of colors into a drop list selector 
-option = st.selectbox('Pick a sweatsuit color or style:', pd_colors['COLOR_OR_STYLE'].tolist())
+option = st.selectbox('Pick a Sweatsuit color or Style:', pd_colors['COLOR_OR_STYLE'].tolist())
 
 # Build the image caption now
 product_caption = 'Our warm, comfortable, ' + option + ' sweatsuit!'
@@ -39,7 +39,7 @@ except Exception as e:
     st.stop()
 
 # Print available columns for debugging
-st.write("Available columns in the product DataFrame:", pd_prod_data.columns.tolist())
+#st.write("Available columns in the product DataFrame:", pd_prod_data.columns.tolist())
 
 # Check if the DataFrame is empty
 if not pd_prod_data.empty:
