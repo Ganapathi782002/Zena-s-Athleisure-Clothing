@@ -51,15 +51,14 @@ if not pd_prod_data.empty:
     size_list = pd_prod_data['SIZE_LIST'].iloc[0]
     upsell = pd_prod_data['UPSELL_PRODUCT_DESC'].iloc[0]
 
-    # Construct the image URL from Snowflake stage
-    url = f"@UF6J16HAO4LNXDEE/{file_name}"
+    # Generate a presigned URL for the image in the Snowflake stage
+    image_url = session.file.get(f"@UF6J16HAO4LNXDEE/{file_name}").url
 
-    # Fetch the image data from Snowflake
-    try:
-        image_data = session.file.read(url)
-        st.image(image_data, width=400, caption=product_caption)
-    except Exception as e:
-        st.error(f"Error fetching image from Snowflake stage: {e}")
+    # Display the image using the presigned URL
+    if image_url:
+        st.image(image_url, width=400, caption=product_caption)
+    else:
+        st.error("Image URL is not available.")
     
     # Display product details
     st.markdown('**Price:** ' + price)
