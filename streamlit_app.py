@@ -2,7 +2,7 @@ import streamlit as st
 from snowflake.snowpark import Session
 import pandas as pd
 
-st.title("Zena's Amazing Athleisure Catalog")
+st.title("🧥 Zena's Amazing Athleisure Catalog 🧥")
 
 # Establish connection to Snowflake
 try:
