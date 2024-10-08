@@ -29,7 +29,7 @@ upsell = pd_prod_data['UPSELL_PRODUCT_DESC'].iloc[0]
 url = pd_prod_data['FILE_URL'].iloc[0]
 
 # display the info on the page
-st.image(image=file_name, width=400, caption=product_caption)
+st.image(image=url, width=400, caption=product_caption)
 st.markdown('**Price:** '+ price)
 st.markdown('**Sizes Available:** ' + size_list)
 st.markdown('**Also Consider:** ' + upsell)
