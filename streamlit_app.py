@@ -12,7 +12,7 @@ except Exception as e:
     st.error(f"Error connecting to Snowflake: {e}")
     st.stop()
 
-# Get a list of colors for a drop list selection
+# Get a list of colors for a drop-down selection
 try:
     table_colors = session.sql("SELECT color_or_style FROM catalog_for_website")
     pd_colors = table_colors.to_pandas()
@@ -29,9 +29,11 @@ product_caption = 'Our warm, comfortable, ' + option + ' sweatsuit!'
 # Use the color selected to get all the info from the database
 try:
     table_prod_data = session.sql(
-        f"SELECT file_name, price, size_list, upsell_product_desc "
-        f"FROM catalog_for_website "
-        f"WHERE color_or_style = '{option}';"
+        f"""
+        SELECT file_name, price, size_list, upsell_product_desc, file_url 
+        FROM catalog_for_website 
+        WHERE color_or_style = '{option}';
+        """
     )
     pd_prod_data = table_prod_data.to_pandas()
 except Exception as e:
@@ -43,21 +45,17 @@ if not pd_prod_data.empty:
     try:
         price = pd_prod_data['PRICE'].iloc[0]
         price = '$' + str(price) + '0'
+
+        file_url = pd_prod_data['FILE_URL'].iloc[0]  # Fetch the pre-signed URL
+        size_list = pd_prod_data['SIZE_LIST'].iloc[0]
+        upsell = pd_prod_data['UPSELL_PRODUCT_DESC'].iloc[0]
     except KeyError:
-        st.error("Price data is not available.")
+        st.error("Product data is not available.")
         st.stop()
-
-    file_name = pd_prod_data['FILE_NAME'].iloc[0]
-    size_list = pd_prod_data['SIZE_LIST'].iloc[0]
-    upsell = pd_prod_data['UPSELL_PRODUCT_DESC'].iloc[0]
-
-    # Construct the correct image URL from GitHub
-    # Ensure the image is present and the path is case-sensitive
-    url = f"https://raw.githubusercontent.com/Ganapathi782002/Zena-s-Athleisure-Clothing/main/CLOTHING/{file_name}"
-
-    # Display the image using the URL
-    if url:
-        st.image(image=url, width=400, caption=product_caption)
+    
+    # Display the image using the pre-signed URL
+    if file_url:
+        st.image(image=file_url, width=400, caption=product_caption)
     else:
         st.error("Image URL is not available.")
     
