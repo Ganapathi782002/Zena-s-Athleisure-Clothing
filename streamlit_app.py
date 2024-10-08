@@ -30,11 +30,13 @@ product_caption = f'Our warm, comfortable, {option} sweatsuit!'
 
 # Use the color selected to get all the info from the database
 try:
-    table_prod_data = session.sql("""
+    # Format the SQL query with the selected option directly
+    query = f"""
         SELECT file_name, price, size_list, upsell_product_desc, file_url 
         FROM catalog_for_website 
-        WHERE color_or_style = :color
-    """, color=option)  # Pass the parameter correctly here
+        WHERE color_or_style = '{option}'  -- Ensure the value is safely escaped if needed
+    """
+    table_prod_data = session.sql(query)
     pd_prod_data = table_prod_data.to_pandas()
 except Exception as e:
     st.error(f"Error fetching product data: {e}")
