@@ -1,5 +1,5 @@
 import streamlit as st
-from snowflake.snowpark.functions import col
+from snowflake.snowpark import Session
 import pandas as pd
 
 st.title("Zena's Amazing Athleisure Catalog")
@@ -13,8 +13,12 @@ except Exception as e:
     st.stop()
 
 # Get a list of colors for a drop list selection
-table_colors = session.sql("SELECT color_or_style FROM catalog_for_website")
-pd_colors = table_colors.to_pandas()
+try:
+    table_colors = session.sql("SELECT color_or_style FROM catalog_for_website")
+    pd_colors = table_colors.to_pandas()
+except Exception as e:
+    st.error(f"Error fetching color options: {e}")
+    st.stop()
 
 # Output the list of colors into a drop list selector 
 option = st.selectbox('Pick a sweatsuit color or style:', pd_colors['COLOR_OR_STYLE'].tolist())
@@ -22,15 +26,17 @@ option = st.selectbox('Pick a sweatsuit color or style:', pd_colors['COLOR_OR_ST
 # Build the image caption now
 product_caption = 'Our warm, comfortable, ' + option + ' sweatsuit!'
 
-# Use the color selected to go back and get all the info from the database
-table_prod_data = session.sql("""
-    SELECT file_name, price, size_list, upsell_product_desc 
-    FROM catalog_for_website 
-    WHERE color_or_style = :color
-""", color=option)
-
-# Convert the result to a pandas DataFrame
-pd_prod_data = table_prod_data.to_pandas()
+# Use the color selected to get all the info from the database
+try:
+    table_prod_data = session.sql(
+        f"SELECT file_name, price, size_list, upsell_product_desc "
+        f"FROM catalog_for_website "
+        f"WHERE color_or_style = '{option}';"
+    )
+    pd_prod_data = table_prod_data.to_pandas()
+except Exception as e:
+    st.error(f"Error fetching product data: {e}")
+    st.stop()
 
 # Print available columns for debugging
 st.write("Available columns in the product DataFrame:", pd_prod_data.columns.tolist())
@@ -51,7 +57,7 @@ if not pd_prod_data.empty:
     # Construct the image URL from GitHub
     url = f"https://raw.githubusercontent.com/Ganapathi782002/Zena-s-Athleisure-Clothing/main/CLOTHING/{file_name}"
 
-    # Check if the URL is valid before displaying
+    # Display the image
     if url:
         st.image(image=url, width=400, caption=product_caption)
     else:
