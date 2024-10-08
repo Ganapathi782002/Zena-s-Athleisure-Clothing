@@ -38,13 +38,10 @@ except Exception as e:
     st.error(f"Error fetching product data: {e}")
     st.stop()
 
-# Print available columns for debugging
-#st.write("Available columns in the product DataFrame:", pd_prod_data.columns.tolist())
-
 # Check if the DataFrame is empty
 if not pd_prod_data.empty:
     try:
-        price = pd_prod_data['PRICE'].iloc[0]  # Ensure the column name is correct
+        price = pd_prod_data['PRICE'].iloc[0]
         price = '$' + str(price) + '0'
     except KeyError:
         st.error("Price data is not available.")
@@ -53,17 +50,17 @@ if not pd_prod_data.empty:
     file_name = pd_prod_data['FILE_NAME'].iloc[0]
     size_list = pd_prod_data['SIZE_LIST'].iloc[0]
     upsell = pd_prod_data['UPSELL_PRODUCT_DESC'].iloc[0]
-    
-    # Construct the image URL from GitHub
-    url = f"https://raw.githubusercontent.com/Ganapathi782002/Zena-s-Athleisure-Clothing/main/CLOTHING/{file_name}"
 
-    # Display the image
-    if url:
-        st.image(image=url, width=400, caption=product_caption)
-    else:
-        st.error("Image URL is not available.")
-        
-    st.write("Image URL:", url)
+    # Construct the image URL from Snowflake stage
+    url = f"@UF6J16HAO4LNXDEE/{file_name}"
+
+    # Fetch the image data from Snowflake
+    try:
+        image_data = session.file.read(url)
+        st.image(image_data, width=400, caption=product_caption)
+    except Exception as e:
+        st.error(f"Error fetching image from Snowflake stage: {e}")
+    
     # Display product details
     st.markdown('**Price:** ' + price)
     st.markdown('**Sizes Available:** ' + str(size_list))
