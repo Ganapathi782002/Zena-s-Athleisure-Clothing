@@ -51,12 +51,13 @@ if not pd_prod_data.empty:
     size_list = pd_prod_data['SIZE_LIST'].iloc[0]
     upsell = pd_prod_data['UPSELL_PRODUCT_DESC'].iloc[0]
 
-    # Generate a presigned URL for the image in the Snowflake stage
-    image_url = session.file.get(f"@UF6J16HAO4LNXDEE/{file_name}").url
+    # Construct the correct image URL from GitHub
+    # Ensure the image is present and the path is case-sensitive
+    url = f"https://raw.githubusercontent.com/Ganapathi782002/Zena-s-Athleisure-Clothing/main/CLOTHING/{file_name}"
 
-    # Display the image using the presigned URL
-    if image_url:
-        st.image(image_url, width=400, caption=product_caption)
+    # Display the image using the URL
+    if url:
+        st.image(image=url, width=400, caption=product_caption)
     else:
         st.error("Image URL is not available.")
     
