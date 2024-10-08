@@ -1,11 +1,13 @@
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
+#from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col
 import pandas as pd
 
 st.title("Zena's Amazing Athleisure Catalog")
 
-session = get_active_session()
+#session = get_active_session()
+cnx = st.connection('snowflake')
+session = cnx.session()
 
 # get a list of colors for a drop list selection
 table_colors = session.sql("select color_or_style from catalog_for_website")
