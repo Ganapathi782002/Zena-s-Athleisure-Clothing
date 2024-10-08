@@ -62,7 +62,8 @@ if not pd_prod_data.empty:
         st.image(image=url, width=400, caption=product_caption)
     else:
         st.error("Image URL is not available.")
-    
+        
+    st.write("Image URL:", url)
     # Display product details
     st.markdown('**Price:** ' + price)
     st.markdown('**Sizes Available:** ' + str(size_list))
