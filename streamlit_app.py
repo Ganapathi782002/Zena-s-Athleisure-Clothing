@@ -30,7 +30,7 @@ if pd_prod_data.empty:
     st.error("No product data found.")
     st.stop()
 
-# Custom CSS for better layout and background
+# Custom CSS for better layout, buttons, and "More about" styling
 st.markdown("""
     <style>
     /* Background styling */
@@ -60,7 +60,17 @@ st.markdown("""
 
     /* Redeem button styling */
     .redeem-btn {
-        background-color: #ff5722;
+        background-color: #00aaff; /* Sky blue color */
+        color: white;
+        border: none;
+        padding: 12px 18px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .redeem-btn-green {
+        background-color: #32cd32; /* Lime green color */
         color: white;
         border: none;
         padding: 12px 18px;
@@ -70,7 +80,11 @@ st.markdown("""
     }
 
     .redeem-btn:hover {
-        background-color: #e64a19;
+        background-color: #0088cc; /* Darker sky blue */
+    }
+    
+    .redeem-btn-green:hover {
+        background-color: #2e8b57; /* Darker lime green */
     }
 
     /* Expander styling for More about section */
@@ -82,12 +96,26 @@ st.markdown("""
         padding: 10px;
     }
 
-    /* Text inside the More about section */
-    .st-expander p {
-        color: #424242;
-        font-size: 16px;
-        line-height: 1.6;
+    /* Sizes styling - as badges */
+    .size-badge {
+        display: inline-block;
+        background-color: #ffcc80;
+        color: #fff;
+        padding: 6px 12px;
+        border-radius: 8px;
+        margin: 5px;
+        font-size: 14px;
+        font-weight: bold;
     }
+
+    /* Upsell styling */
+    .upsell-info {
+        background-color: #e1f5fe;
+        border-left: 4px solid #00acc1;
+        padding: 10px;
+        margin-top: 10px;
+    }
+
     </style>
 """, unsafe_allow_html=True)
 
@@ -97,7 +125,7 @@ def display_product_tile(product):
         file_url = product['FILE_URL']
         color_or_style = product['COLOR_OR_STYLE']
         price = 'Points ' + str(product['PRICE']) + '0 🟡'
-        size_list = product['SIZE_LIST']
+        size_list = product['SIZE_LIST'].split(',')
         upsell = product['UPSELL_PRODUCT_DESC']
 
         # Display product in a card-like format
@@ -109,14 +137,21 @@ def display_product_tile(product):
         # Display only the price and redeem button initially
         st.markdown(f'<div class="product-price">{price}</div>', unsafe_allow_html=True)
 
-        # Redeem button
-        if st.button(f"Redeem {color_or_style}"):
-            st.success(f"Congrats! You've redeemed the {color_or_style} sweatsuit!")
+        # Redeem button (alternate between sky blue and lime green)
+        button_style = 'redeem-btn' if len(size_list) % 2 == 0 else 'redeem-btn-green'
+        if st.button(f"Redeem {color_or_style}", key=color_or_style):
+            #st.success(f"Congrats! You've redeemed the {color_or_style} sweatsuit!")
+            pass
 
         # Toggle to show more details upon clicking
         with st.expander(f"More about {color_or_style}"):
-            st.markdown(f"**Sizes Available:** {size_list}")
-            st.markdown(f"**Also Consider:** {upsell}")
+            # Display sizes as badges
+            st.markdown("**Sizes Available:**")
+            size_badges = ' '.join([f'<span class="size-badge">{size}</span>' for size in size_list])
+            st.markdown(size_badges, unsafe_allow_html=True)
+
+            # Display upsell information
+            st.markdown(f"<div class='upsell-info'>🛒 **Also Consider:** {upsell}</div>", unsafe_allow_html=True)
 
         st.markdown('</div>', unsafe_allow_html=True)
 
