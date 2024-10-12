@@ -30,7 +30,7 @@ product_caption = 'Our warm, comfortable, ' + option + ' sweatsuit!'
 try:
     table_prod_data = session.sql(
         f"""
-        SELECT file_name, price, size_list, upsell_product_desc, file_url 
+        SELECT file_name, points, size_list, upsell_product_desc, file_url 
         FROM catalog_for_website 
         WHERE color_or_style = '{option}';
         """
