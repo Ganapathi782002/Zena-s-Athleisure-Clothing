@@ -48,6 +48,7 @@ st.markdown("""
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         margin-bottom: 30px;
         text-align: center;
+        font-weight: bold; /* Make all text in product cards bold */
     }
 
     /* Price text styling */
@@ -67,6 +68,7 @@ st.markdown("""
         border-radius: 8px;
         cursor: pointer;
         transition: background-color 0.3s ease;
+        font-weight: bold; /* Make the button text bold */
     }
     
     .redeem-btn:hover {
@@ -80,6 +82,7 @@ st.markdown("""
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         margin-top: 10px;
         padding: 10px;
+        font-weight: bold; /* Make all text in expanders bold */
     }
 
     /* Sizes styling - as badges */
@@ -91,7 +94,7 @@ st.markdown("""
         border-radius: 8px;
         margin: 5px;
         font-size: 14px;
-        font-weight: bold;
+        font-weight: bold; /* Make the size badges text bold */
     }
 
     /* Upsell styling */
@@ -100,6 +103,7 @@ st.markdown("""
         border-left: 4px solid #00acc1;
         padding: 10px;
         margin-top: 10px;
+        font-weight: bold; /* Make upsell text bold */
     }
 
     </style>
@@ -124,7 +128,7 @@ def display_product_tile(product):
         st.markdown(f'<div class="product-price">{price}</div>', unsafe_allow_html=True)
 
         # Redeem button (styled with sky blue and white text)
-        if st.button(f"Redeem {color_or_style}", key=color_or_style, help="Click to redeem this product"):
+        if st.button(f"Redeem {color_or_style}", key=color_or_style, help="Click to redeem this product", use_container_width=True):
             # st.success(f"Congrats! You've redeemed the {color_or_style} sweatsuit!")
             pass
 
