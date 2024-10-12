@@ -60,7 +60,7 @@ st.markdown("""
 
     /* Redeem button styling */
     .redeem-btn {
-        background-color: #0088cc; /* Sky blue color */
+        background-color: #32CD32; /* Sky blue color */
         color: white;
         border: none;
         padding: 12px 18px;
