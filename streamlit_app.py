@@ -70,7 +70,7 @@ st.markdown("""
     }
     
     .redeem-btn:hover {
-        background-color: #005f8c; /* Darker sky blue */
+        background-color: #013220; /* Darker sky blue */
     }
 
     /* Expander styling for More about section */
