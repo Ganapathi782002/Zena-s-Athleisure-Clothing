@@ -71,7 +71,7 @@ st.markdown("""
     
     .redeem-btn-green {
         background-color: #32cd32; /* Lime green color */
-        color: white;
+        color: #32CD32;
         border: none;
         padding: 12px 18px;
         border-radius: 8px;
