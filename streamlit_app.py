@@ -44,7 +44,7 @@ st.markdown("""
     .product-card {
         border-radius: 15px;
         padding: 20px;
-        background-color: #fff3e6;
+        background-color: #096C6C;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         margin-bottom: 30px;
         text-align: center;
@@ -54,13 +54,13 @@ st.markdown("""
     .product-price {
         font-size: 22px;
         font-weight: bold;
-        color: #ff9800;
+        color: #32CD32;
         margin: 12px 0;
     }
 
     /* Redeem button styling */
     .redeem-btn {
-        background-color: #00aaff; /* Sky blue color */
+        background-color: #32CD32; /* Sky blue color */
         color: white;
         border: none;
         padding: 12px 18px;
@@ -71,7 +71,7 @@ st.markdown("""
     
     .redeem-btn-green {
         background-color: #32cd32; /* Lime green color */
-        color: #32CD32;
+        color: white;
         border: none;
         padding: 12px 18px;
         border-radius: 8px;
