@@ -2,7 +2,7 @@ import streamlit as st
 from snowflake.snowpark import Session
 import pandas as pd
 
-st.title("🧥 Zena's Amazing Athleisure Catalog 🧥")
+st.title("🏆 Redeem Your Points Here 🏆")
 
 # Establish connection to Snowflake
 try:
@@ -67,7 +67,7 @@ def display_product_tile(product):
     try:
         file_url = product['FILE_URL']
         color_or_style = product['COLOR_OR_STYLE']
-        price = '$' + str(product['PRICE']) + '0'
+        price = '' + str(product['PRICE']) + '0'
         size_list = product['SIZE_LIST']
         upsell = product['UPSELL_PRODUCT_DESC']
 
@@ -81,8 +81,8 @@ def display_product_tile(product):
         st.markdown(f'<div class="product-price">{price}</div>', unsafe_allow_html=True)
 
         # Redeem button
-        if st.button(f"Redeem {color_or_style}"):
-            st.success(f"Congrats! You've redeemed the {color_or_style} sweatsuit!")
+        #if st.button(f"Redeem {color_or_style}"):
+            #st.success(f"Congrats! You've redeemed the {color_or_style} sweatsuit!")
 
         # Toggle to show more details upon clicking
         with st.expander(f"More about {color_or_style}"):
