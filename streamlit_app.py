@@ -81,7 +81,7 @@ def display_product_tile(product):
         st.markdown(f'<div class="product-price">{price}</div>', unsafe_allow_html=True)
 
         # Redeem button
-        if st.button(f"Redeem {color_or_style}"):
+        if st.button(f"Redeem"):
             #st.success(f"Congrats! You've redeemed the {color_or_style} sweatsuit!")
             pass
 
