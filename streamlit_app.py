@@ -44,7 +44,7 @@ except Exception as e:
 if not pd_prod_data.empty:
     try:
         price = pd_prod_data['PRICE'].iloc[0]
-        price = '$' + str(price) + '0'
+        price = '$' + str(points) + '0'
 
         file_url = pd_prod_data['FILE_URL'].iloc[0]  # Fetch the pre-signed URL
         size_list = pd_prod_data['SIZE_LIST'].iloc[0]
@@ -60,7 +60,7 @@ if not pd_prod_data.empty:
         st.error("Image URL is not available.")
     
     # Display product details
-    st.markdown('**Price:** ' + price)
+    st.markdown('**Price:** ' + points)
     st.markdown('**Sizes Available:** ' + str(size_list))
     st.markdown('**Also Consider:** ' + upsell)
 else:
