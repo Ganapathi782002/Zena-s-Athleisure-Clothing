@@ -12,27 +12,12 @@ except Exception as e:
     st.error(f"Error connecting to Snowflake: {e}")
     st.stop()
 
-# Get a list of colors for a drop-down selection
-try:
-    table_colors = session.sql("SELECT color_or_style FROM catalog_for_website")
-    pd_colors = table_colors.to_pandas()
-except Exception as e:
-    st.error(f"Error fetching color options: {e}")
-    st.stop()
-
-# Output the list of colors into a drop list selector 
-option = st.selectbox('Pick a Sweatsuit color or Style:', pd_colors['COLOR_OR_STYLE'].tolist())
-
-# Build the image caption now
-product_caption = 'Our warm, comfortable, ' + option + ' sweatsuit!'
-
-# Use the color selected to get all the info from the database
+# Get all product data from the database
 try:
     table_prod_data = session.sql(
-        f"""
-        SELECT file_name, price, size_list, upsell_product_desc, file_url 
-        FROM catalog_for_website 
-        WHERE color_or_style = '{option}';
+        """
+        SELECT color_or_style, file_name, price, size_list, upsell_product_desc, file_url 
+        FROM catalog_for_website;
         """
     )
     pd_prod_data = table_prod_data.to_pandas()
@@ -41,27 +26,39 @@ except Exception as e:
     st.stop()
 
 # Check if the DataFrame is empty
-if not pd_prod_data.empty:
-    try:
-        price = pd_prod_data['PRICE'].iloc[0]
-        price = '$' + str(price) + '0'
+if pd_prod_data.empty:
+    st.error("No product data found.")
+    st.stop()
 
-        file_url = pd_prod_data['FILE_URL'].iloc[0]  # Fetch the pre-signed URL
-        size_list = pd_prod_data['SIZE_LIST'].iloc[0]
-        upsell = pd_prod_data['UPSELL_PRODUCT_DESC'].iloc[0]
+# Display each product in a tile layout
+num_columns = 5  # Number of tiles per row
+num_products = len(pd_prod_data)
+
+# Function to display a single product in a tile
+def display_product_tile(product):
+    try:
+        file_url = product['FILE_URL']
+        color_or_style = product['COLOR_OR_STYLE']
+        price = '$' + str(product['PRICE']) + '0'
+        size_list = product['SIZE_LIST']
+        upsell = product['UPSELL_PRODUCT_DESC']
+
+        # Display product image and information
+        st.image(file_url, width=200, caption=color_or_style)
+        st.markdown(f"**Price:** {price}")
+        st.markdown(f"**Sizes Available:** {size_list}")
+        st.markdown(f"**Also Consider:** {upsell}")
+        
+        # Redeem button
+        if st.button(f"Redeem {color_or_style}"):
+            st.success(f"Congrats! You've redeemed the {color_or_style} sweatsuit!")
     except KeyError:
-        st.error("Product data is not available.")
-        st.stop()
-    
-    # Display the image using the pre-signed URL
-    if file_url:
-        st.image(image=file_url, width=400, caption=product_caption)
-    else:
-        st.error("Image URL is not available.")
-    
-    # Display product details
-    st.markdown('**Price:** ' + price)
-    st.markdown('**Sizes Available:** ' + str(size_list))
-    st.markdown('**Also Consider:** ' + upsell)
-else:
-    st.error("No product data found for the selected color/style.")
+        st.error("Product data is incomplete.")
+
+# Create a grid of product tiles
+for i in range(0, num_products, num_columns):
+    cols = st.columns(num_columns)  # Create columns
+    for j, col in enumerate(cols):
+        if i + j < num_products:  # Ensure we don't exceed the number of products
+            with col:
+                display_product_tile(pd_prod_data.iloc[i + j])
