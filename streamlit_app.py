@@ -60,7 +60,7 @@ st.markdown("""
 
     /* Redeem button styling */
     .redeem-btn {
-        background-color: #32CD32; /* Sky blue color */
+        background-color: #0088cc; /* Sky blue color */
         color: white;
         border: none;
         padding: 12px 18px;
@@ -69,22 +69,8 @@ st.markdown("""
         transition: background-color 0.3s ease;
     }
     
-    .redeem-btn-green {
-        background-color: #32cd32; /* Lime green color */
-        color: white;
-        border: none;
-        padding: 12px 18px;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
     .redeem-btn:hover {
-        background-color: #0088cc; /* Darker sky blue */
-    }
-    
-    .redeem-btn-green:hover {
-        background-color: #2e8b57; /* Darker lime green */
+        background-color: #005f8c; /* Darker sky blue */
     }
 
     /* Expander styling for More about section */
@@ -99,7 +85,7 @@ st.markdown("""
     /* Sizes styling - as badges */
     .size-badge {
         display: inline-block;
-        background-color: #ffcc80;
+        background-color: #4CAF50; /* Medium green */
         color: #fff;
         padding: 6px 12px;
         border-radius: 8px;
@@ -137,21 +123,20 @@ def display_product_tile(product):
         # Display only the price and redeem button initially
         st.markdown(f'<div class="product-price">{price}</div>', unsafe_allow_html=True)
 
-        # Redeem button (alternate between sky blue and lime green)
-        button_style = 'redeem-btn' if len(size_list) % 2 == 0 else 'redeem-btn-green'
-        if st.button(f"Redeem {color_or_style}", key=color_or_style):
-            #st.success(f"Congrats! You've redeemed the {color_or_style} sweatsuit!")
+        # Redeem button (styled with sky blue and white text)
+        if st.button(f"Redeem {color_or_style}", key=color_or_style, help="Click to redeem this product"):
+            # st.success(f"Congrats! You've redeemed the {color_or_style} sweatsuit!")
             pass
 
         # Toggle to show more details upon clicking
         with st.expander(f"More about {color_or_style}"):
-            # Display sizes as badges
+            # Display sizes as badges with medium green background and white text
             st.markdown("**Sizes Available:**")
             size_badges = ' '.join([f'<span class="size-badge">{size}</span>' for size in size_list])
             st.markdown(size_badges, unsafe_allow_html=True)
 
             # Display upsell information
-            st.markdown(f"<div class='upsell-info'>🛒 **Also Consider:** {upsell}</div>", unsafe_allow_html=True)
+            st.markdown(f"<div class='upsell-info'>🛒 {upsell}</div>", unsafe_allow_html=True)
 
         st.markdown('</div>', unsafe_allow_html=True)
 
