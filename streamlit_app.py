@@ -180,7 +180,6 @@ for i in range(0, num_products, num_columns):
 # Footer
 st.markdown("""
     <div class="footer">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Smoothie_Logo.png" alt="Smoothie Logo">
-        Developed by <a href="#">Melanie's Smoothie Ltd.</a>
+        Developed by <a href="#">🍹 Melanie's Smoothie Ltd.</a>
     </div>
 """, unsafe_allow_html=True)
