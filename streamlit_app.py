@@ -105,45 +105,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.markdown("""
-    <style>
-    /* Style the custom expander header with a custom background and white text */
-    .custom-expander-header {
-        background-color: #4CAF50; /* Green background */
-        color: white; /* White text */
-        border-radius: 8px;
-        padding: 10px;
-        font-weight: bold; /* Bold text */
-        cursor: pointer;
-        text-align: center;
-        margin-top: 10px;
-    }
-
-    /* Style for the hidden content */
-    .custom-expander-content {
-        display: none;
-        padding: 10px;
-        background-color: #f1f1f1;
-        border-radius: 8px;
-        margin-top: 10px;
-    }
-
-    /* Style for the active content */
-    .custom-expander-content.active {
-        display: block;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-    <script>
-    function toggleExpander(id) {
-        var content = document.getElementById(id);
-        content.classList.toggle('active');
-    }
-    </script>
-""", unsafe_allow_html=True)
-
 # Function to display a single product tile with additional details on click
 def display_product_tile(product):
     try:
@@ -167,20 +128,15 @@ def display_product_tile(product):
             #st.success(f"Congrats! You've redeemed the {color_or_style} sweatsuit!")
             pass
 
-        expander_id = f"expander_{color_or_style.replace(' ', '_')}"
-        st.markdown(f'<div class="custom-expander-header" onclick="toggleExpander(\'{expander_id}\')">More about {color_or_style}</div>', unsafe_allow_html=True)
-
         # Toggle to show more details upon clicking
-        with st.markdown(f'<div class="custom-expander-content" id="{expander_id}">', unsafe_allow_html=True):
+        with st.expander(f"More about {color_or_style}"):
             # Display sizes as badges with medium green background and white text
             st.markdown("**Sizes Available:**")
             size_badges = ' '.join([f'<span class="size-badge">{size}</span>' for size in size_list])
             st.markdown(size_badges, unsafe_allow_html=True)
 
             # Display upsell information
-            st.markdown(f"<div class='upsell-info'>🛒 **Also Consider:** {upsell}</div>", unsafe_allow_html=True)
-
-        st.markdown('</div>', unsafe_allow_html=True)
+            st.markdown(f"<div class='upsell-info'>🛒 {upsell}</div>", unsafe_allow_html=True)
 
         st.markdown('</div>', unsafe_allow_html=True)
 
