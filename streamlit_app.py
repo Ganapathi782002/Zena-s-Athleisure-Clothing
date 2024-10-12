@@ -30,34 +30,63 @@ if pd_prod_data.empty:
     st.error("No product data found.")
     st.stop()
 
-# Custom CSS for better layout
+# Custom CSS for better layout and background
 st.markdown("""
     <style>
+    /* Background styling */
+    .stApp {
+        background-image: url("https://www.transparenttextures.com/patterns/purty-wood.png");
+        background-size: cover;
+        padding: 20px;
+    }
+
+    /* Style for product cards */
     .product-card {
-        border-radius: 10px;
-        padding: 15px;
-        background-color: #f0f0f0;
-        box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
+        border-radius: 15px;
+        padding: 20px;
+        background-color: #fff3e6;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin-bottom: 30px;
         text-align: center;
     }
+
+    /* Price text styling */
     .product-price {
-        font-size: 18px;
+        font-size: 22px;
         font-weight: bold;
-        color: #ff5722;
-        margin: 10px 0;
+        color: #ff9800;
+        margin: 12px 0;
     }
+
+    /* Redeem button styling */
     .redeem-btn {
-        background-color: #4CAF50;
+        background-color: #ff5722;
         color: white;
         border: none;
-        padding: 10px;
-        border-radius: 5px;
+        padding: 12px 18px;
+        border-radius: 8px;
         cursor: pointer;
         transition: background-color 0.3s ease;
     }
+
     .redeem-btn:hover {
-        background-color: #45a049;
+        background-color: #e64a19;
+    }
+
+    /* Expander styling for More about section */
+    .st-expander {
+        background-color: #fff8e1;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        margin-top: 10px;
+        padding: 10px;
+    }
+
+    /* Text inside the More about section */
+    .st-expander p {
+        color: #424242;
+        font-size: 16px;
+        line-height: 1.6;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -67,7 +96,7 @@ def display_product_tile(product):
     try:
         file_url = product['FILE_URL']
         color_or_style = product['COLOR_OR_STYLE']
-        price = 'Points ' + str(product['PRICE']) + '0' + '🟡'
+        price = 'Points ' + str(product['PRICE']) + '0 🟡'
         size_list = product['SIZE_LIST']
         upsell = product['UPSELL_PRODUCT_DESC']
 
@@ -82,8 +111,7 @@ def display_product_tile(product):
 
         # Redeem button
         if st.button(f"Redeem {color_or_style}"):
-            #st.success(f"Congrats! You've redeemed the {color_or_style} sweatsuit!")
-            pass
+            st.success(f"Congrats! You've redeemed the {color_or_style} sweatsuit!")
 
         # Toggle to show more details upon clicking
         with st.expander(f"More about {color_or_style}"):
