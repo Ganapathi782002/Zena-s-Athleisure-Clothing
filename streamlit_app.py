@@ -102,6 +102,28 @@ st.markdown("""
         margin-top: 10px;
     }
 
+    /* Footer styling */
+    .footer {
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        margin-top: 30px;
+        border-radius: 10px;
+    }
+
+    .footer img {
+        width: 50px;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+
+    .footer a {
+        color: #32CD32;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
     </style>
 """, unsafe_allow_html=True)
 
@@ -154,3 +176,11 @@ for i in range(0, num_products, num_columns):
         if i + j < num_products:
             with col:
                 display_product_tile(pd_prod_data.iloc[i + j])
+
+# Footer
+st.markdown("""
+    <div class="footer">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Smoothie_Logo.png" alt="Smoothie Logo">
+        Developed by <a href="#">Melanie's Smoothie Ltd.</a>
+    </div>
+""", unsafe_allow_html=True)
