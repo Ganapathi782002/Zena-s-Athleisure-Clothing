@@ -2,11 +2,7 @@ import streamlit as st
 from snowflake.snowpark import Session
 import pandas as pd
 
-# Set the page width to wide for a better tile display
-st.set_page_config(layout="wide")
-
 st.title("🧥 Zena's Amazing Athleisure Catalog 🧥")
-st.markdown("---")
 
 # Establish connection to Snowflake
 try:
@@ -34,43 +30,11 @@ if pd_prod_data.empty:
     st.error("No product data found.")
     st.stop()
 
-# Custom CSS for a more polished look
-st.markdown("""
-    <style>
-    .product-card {
-        border-radius: 10px;
-        padding: 20px;
-        background-color: #f9f9f9;
-        box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
-    .product-title {
-        font-size: 18px;
-        font-weight: bold;
-        color: #2e7d32;
-        margin-bottom: 10px;
-    }
-    .product-image {
-        margin-bottom: 15px;
-    }
-    .product-info {
-        margin-bottom: 10px;
-    }
-    .redeem-btn {
-        background-color: #ff7043;
-        color: white;
-        border: none;
-        padding: 10px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-    .redeem-btn:hover {
-        background-color: #f4511e;
-    }
-    </style>
-""", unsafe_allow_html=True)
+# Display each product in a tile layout
+num_columns = 5  # Number of tiles per row
+num_products = len(pd_prod_data)
 
-# Function to display a single product in a styled tile
+# Function to display a single product in a tile
 def display_product_tile(product):
     try:
         file_url = product['FILE_URL']
@@ -79,27 +43,19 @@ def display_product_tile(product):
         size_list = product['SIZE_LIST']
         upsell = product['UPSELL_PRODUCT_DESC']
 
-        # Display product in a styled card layout
-        st.markdown('<div class="product-card">', unsafe_allow_html=True)
-
-        st.image(file_url, width=250, caption=color_or_style, class_="product-image")
-        st.markdown(f'<div class="product-title">{color_or_style} Sweatsuit</div>', unsafe_allow_html=True)
-        st.markdown(f'<div class="product-info"><strong>Price:</strong> {price}</div>', unsafe_allow_html=True)
-        st.markdown(f'<div class="product-info"><strong>Sizes Available:</strong> {size_list}</div>', unsafe_allow_html=True)
-        st.markdown(f'<div class="product-info"><strong>Also Consider:</strong> {upsell}</div>', unsafe_allow_html=True)
-
+        # Display product image and information
+        st.image(file_url, width=200, caption=color_or_style)
+        st.markdown(f"**Price:** {price}")
+        st.markdown(f"**Sizes Available:** {size_list}")
+        st.markdown(f"**Also Consider:** {upsell}")
+        
         # Redeem button
-        if st.button(f"Redeem {color_or_style}", key=color_or_style):
+        if st.button(f"Redeem {color_or_style}"):
             st.success(f"Congrats! You've redeemed the {color_or_style} sweatsuit!")
-
-        st.markdown('</div>', unsafe_allow_html=True)
     except KeyError:
         st.error("Product data is incomplete.")
 
-# Create a grid of product tiles with better formatting
-num_columns = 3  # Number of tiles per row
-num_products = len(pd_prod_data)
-
+# Create a grid of product tiles
 for i in range(0, num_products, num_columns):
     cols = st.columns(num_columns)  # Create columns
     for j, col in enumerate(cols):
