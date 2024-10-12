@@ -43,7 +43,7 @@ except Exception as e:
 # Check if the DataFrame is empty
 if not pd_prod_data.empty:
     try:
-        price = pd_prod_data['PRICE'].iloc[0]
+        price = pd_prod_data['POINTS'].iloc[0]
         price = '$' + str(points) + '0'
 
         file_url = pd_prod_data['FILE_URL'].iloc[0]  # Fetch the pre-signed URL
