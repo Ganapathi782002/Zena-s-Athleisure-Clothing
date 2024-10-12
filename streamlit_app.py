@@ -124,8 +124,8 @@ def display_product_tile(product):
         st.markdown(f'<div class="product-price">{price}</div>', unsafe_allow_html=True)
 
         # Redeem button (styled with sky blue and white text)
-        if st.button(f"Redeem {color_or_style}", key=color_or_style):
-            # st.success(f"Congrats! You've redeemed the {color_or_style} sweatsuit!")
+        if st.markdown(f'<button class="redeem-btn" id="{color_or_style}">Redeem {color_or_style}</button>', unsafe_allow_html=True):
+            #st.success(f"Congrats! You've redeemed the {color_or_style} sweatsuit!")
             pass
 
         # Toggle to show more details upon clicking
