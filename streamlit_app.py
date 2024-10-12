@@ -67,7 +67,7 @@ def display_product_tile(product):
     try:
         file_url = product['FILE_URL']
         color_or_style = product['COLOR_OR_STYLE']
-        price = 'Points ' + str(product['PRICE']) + '0' + 🟡
+        price = 'Points ' + str(product['PRICE']) + '0' + '🟡'
         size_list = product['SIZE_LIST']
         upsell = product['UPSELL_PRODUCT_DESC']
 
